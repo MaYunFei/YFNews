@@ -13,11 +13,6 @@ public class BaseResponse<T> {
      */
 
     private String reason;
-    /**
-     * stat : 1
-     * data : []
-     */
-
     private ResultEntity<T> result;
     private int error_code;
 
@@ -45,9 +40,9 @@ public class BaseResponse<T> {
         this.error_code = error_code;
     }
 
-    private static class ResultEntity<T> {
+    public static class ResultEntity<K> {
         private String stat;
-        private T data;
+        private K data;
 
         public String getStat() {
             return stat;
@@ -57,11 +52,11 @@ public class BaseResponse<T> {
             this.stat = stat;
         }
 
-        public T getData() {
+        public K getData() {
             return data;
         }
 
-        public void setData(T data) {
+        public void setData(K data) {
             this.data = data;
         }
     }

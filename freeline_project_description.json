@@ -1,6 +1,6 @@
 {
-    "android_gradle_plugin_version": "2.2.2",
-    "apk_path": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/build/outputs/apk/app-debug.apk",
+    "android_gradle_plugin_version": "2.2.3",
+    "apk_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/outputs/apk/app-debug.apk",
     "apt": {
         
     },
@@ -9,8 +9,8 @@
         "butterknife": false
     },
     "auto_dependency": true,
-    "build_cache_dir": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/build/freeline",
-    "build_directory": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/build",
+    "build_cache_dir": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/freeline",
+    "build_directory": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build",
     "build_script": "./gradlew :app:assembleDebug",
     "build_script_work_directory": "",
     "build_tools_directory": "/Users/yunfei/Documents/AndroidTools/android-sdk-macosx/build-tools/25.0.1",
@@ -31,33 +31,33 @@
     "extra_dep_res_paths": [
         
     ],
-    "freeline_cache_dir": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews",
+    "freeline_cache_dir": "/Users/yunfei/Documents/Code/GitHub/YFNews",
     "freeline_gradle_plugin_version": "0.8.3",
     "java_home": "/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home",
-    "launcher": "com.yunfei.yfnews.MainActivity",
+    "launcher": "com.yunfei.home.HomeActivity",
     "main_assets_directory": [
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/assets",
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/assets"
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/assets",
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/assets"
     ],
     "main_jniLibs_directory": [
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/jniLibs",
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/jniLibs"
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/jniLibs",
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/jniLibs"
     ],
     "main_jni_directory": [
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/jni",
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/jni"
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/jni",
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/jni"
     ],
-    "main_manifest_path": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/AndroidManifest.xml",
+    "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/AndroidManifest.xml",
     "main_project_dir": "app",
     "main_project_name": "app",
-    "main_r_path": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/build/generated/source/r/debug/R.java",
+    "main_r_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/generated/source/r/debug/R.java",
     "main_res_directory": [
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/res",
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/res"
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/res",
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/res"
     ],
     "main_src_directory": [
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/java",
-        "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/java"
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/java",
+        "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/java"
     ],
     "module_dependencies": {
         "app": [
@@ -67,7 +67,7 @@
     "modules": [
         {
             "name": "app",
-            "path": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app"
+            "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app"
         }
     ],
     "package": "com.yunfei.yfnews",
@@ -75,25 +75,25 @@
     "project_source_sets": {
         "app": {
             "main_assets_directory": [
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/assets",
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/assets"
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/assets",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/assets"
             ],
             "main_jniLibs_directory": [
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/jniLibs",
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/jniLibs"
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/jniLibs",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/jniLibs"
             ],
             "main_jni_directory": [
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/jni",
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/jni"
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/jni",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/jni"
             ],
-            "main_manifest_path": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/AndroidManifest.xml",
+            "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/AndroidManifest.xml",
             "main_res_directory": [
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/res",
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/res"
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/res",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/res"
             ],
             "main_src_directory": [
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/debug/java",
-                "/Users/yunfei/Documents/Code/AndroidDemo/YFNews/app/src/main/java"
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/debug/java",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/java"
             ]
         }
     },
@@ -101,7 +101,7 @@
     "retrolambda": {
         
     },
-    "root_dir": "/Users/yunfei/Documents/Code/AndroidDemo/YFNews",
+    "root_dir": "/Users/yunfei/Documents/Code/GitHub/YFNews",
     "sdk_directory": "/Users/yunfei/Documents/AndroidTools/android-sdk-macosx",
     "use_jdk8": true
 }

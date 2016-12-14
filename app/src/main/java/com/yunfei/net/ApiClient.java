@@ -25,8 +25,10 @@ public class ApiClient {
     private ApiClient() {
     }
 
-
-    public static Retrofit retrofit = null;
+    /**
+     * 单例禁止多个
+     */
+    private static Retrofit retrofit = null;
 
     public static Retrofit retrofit() {
         if (retrofit == null) {
