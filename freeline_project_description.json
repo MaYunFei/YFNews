@@ -1,5 +1,5 @@
 {
-    "android_gradle_plugin_version": "2.2.3",
+  "android_gradle_plugin_version": "2.3.0-beta1",
     "apk_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/outputs/apk/app-debug.apk",
     "apt": {
         
