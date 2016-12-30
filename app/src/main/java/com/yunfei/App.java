@@ -1,13 +1,13 @@
 package com.yunfei;
 
-import android.app.Application;
+import com.yunfei.core.BaseApp;
 
 /**
  * Created by yunfei on 2016/12/6.
  * email mayunfei6@gmail.com
  */
 
-public class App extends Application {
+public class App extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();

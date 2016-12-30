@@ -1,5 +1,6 @@
 package com.yunfei.home;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,10 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 import com.yunfei.yfnews.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +47,23 @@ public class HomeActivity extends AppCompatActivity {
         mTablayout.setupWithViewPager(mViewPager);
     }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.menu_main, menu);
+    MenuItem searchItem = menu.findItem(R.id.action_search);
+
+    SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+    SearchView searchView = null;
+    if (searchItem != null) {
+      searchView = (SearchView) searchItem.getActionView();
+    }
+    if (searchView != null) {
+      searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+    }
+    return super.onCreateOptionsMenu(menu);
+  }
+
     private void initData() {
         typeList = new ArrayList<Type>();
         typeList.add(new Type("top", R.string.top));
@@ -55,6 +76,18 @@ public class HomeActivity extends AppCompatActivity {
         typeList.add(new Type("keji", R.string.keji));
         typeList.add(new Type("caijing", R.string.caijing));
         typeList.add(new Type("shishang", R.string.shishang));
+    }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_settings:
+        Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+        return true;
+      default:
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
+    }
     }
 
     private static class NewsPageAdapter extends FragmentPagerAdapter {

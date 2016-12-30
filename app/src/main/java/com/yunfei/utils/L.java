@@ -8,7 +8,7 @@ import android.util.Log;
  */
 
 public class L {
-    private static final String TAG = "yunfei";
+  private static final String TAG = "啪啪啪";
 
     private L() {
     }

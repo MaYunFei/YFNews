@@ -3,26 +3,26 @@ package com.yunfei.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.BindView;
 import com.squareup.picasso.Picasso;
+import com.yunfei.core.mvp.imple.MvpLceeFragment;
+import com.yunfei.core.ui.BaseRecyclerAdapter;
+import com.yunfei.core.utils.NetUtil;
 import com.yunfei.entity.NewItem;
 import com.yunfei.net.ApiClient;
 import com.yunfei.net.NewsService;
 import com.yunfei.utils.CustomTabsUtils;
 import com.yunfei.utils.L;
 import com.yunfei.yfnews.R;
-
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,175 +30,128 @@ import java.util.List;
  * email mayunfei6@gmail.com
  */
 
-public class NewItemFragment extends Fragment implements HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView, NewItemPresenter> implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
 
-    private HomeContract.Presenter mPresenter;
-    private RecyclerView mRecyclerview;
-    private NewItmeAdapter mNewItmeAdapter;
-    private static final String BUNDLE_TYPE = "bundle_type";
+  @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
+  @BindView(R.id.refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
-    public static NewItemFragment getNewInstance(String type) {
-        NewItemFragment instance = new NewItemFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(BUNDLE_TYPE, type);
-        instance.setArguments(bundle);
-        return instance;
+  private NewItmeAdapter mNewItmeAdapter;
+  private static final String BUNDLE_TYPE = "bundle_type";
+
+  //实现懒加载
+  @Override public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+    L.i("呵呵 " + getArguments().getString(BUNDLE_TYPE));
+    if (getUserVisibleHint()) {
+      //当前可见
+      onVisible();
     }
+  }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //注入
-        new NewItemPresenter(this, ApiClient.retrofit().create(NewsService.class), getArguments().getString(BUNDLE_TYPE));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.home_new_item_fragment, container, false);
-        mRecyclerview = (RecyclerView) root.findViewById(R.id.recyclerview);
-        final SwipeRefreshLayout swipeRefreshLayout =
-                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-                ContextCompat.getColor(getActivity(), R.color.colorAccent),
-                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
-        );
-        mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-        mNewItmeAdapter = new NewItmeAdapter(getContext());
-        mRecyclerview.setAdapter(mNewItmeAdapter);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.subscribe();
-        L.i("onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPresenter.unsubscribe();
-        L.i("onPause");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        L.i("onDestroyView");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        L.i("onDetach");
-    }
-
-    @Override
-    public void setLoadingIndicator(final boolean active) {
-        if (getView() == null) {
-            return;
-        }
-
-        final SwipeRefreshLayout srl =
-                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
-
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
-    }
-
-    @Override
-    public void showNews(List<NewItem> newItems) {
-        mNewItmeAdapter.setData(newItems);
-        mNewItmeAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void setPresenter(HomeContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-
-    @Override
-    public void onRefresh() {
+  private void onVisible() {
+    //没有数据的时候更新 如果有需要操作view 的方法应该判断view是否生成，因为setUserVisibleHint 方法在onCreateView之前
+    if (NetUtil.isNetWorkAvilable()) {
+      if ((mPresenter != null && (mNewItmeAdapter == null || mNewItmeAdapter.getItemCount() == 0))) {
         mPresenter.getNews();
+      }
+    } else {
+      showNetError();
+    }
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorPrimary), ContextCompat.getColor(getActivity(), R.color.colorAccent),
+        ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+    mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+    mNewItmeAdapter = new NewItmeAdapter(getContext());
+    mRecyclerview.setAdapter(mNewItmeAdapter);
+    mSwipeRefreshLayout.setOnRefreshListener(this);
+    mRecyclerview.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+      @Override public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        super.onTouchEvent(rv, e);
+      }
+    });
+  }
+
+  public static NewItemFragment getNewInstance(String type) {
+    NewItemFragment instance = new NewItemFragment();
+    Bundle bundle = new Bundle();
+    bundle.putString(BUNDLE_TYPE, type);
+    instance.setArguments(bundle);
+    return instance;
+  }
+
+  @Override protected int getContentLayoutId() {
+    return R.layout.home_new_item_fragment;
+  }
+
+  @Override public void onRefresh() {
+    mPresenter.getNews();
+  }
+
+  @Override public void showError(Throwable e, boolean pullToRefresh) {
+    super.showError(e, pullToRefresh);
+  }
+
+  @Override protected NewItemPresenter createPresenter() {
+    return new NewItemPresenter(ApiClient.retrofit().create(NewsService.class), getArguments().getString(BUNDLE_TYPE));
+  }
+
+  @Override protected void showPullToRefresh() {
+    super.showPullToRefresh();
+    mSwipeRefreshLayout.setRefreshing(true);
+  }
+
+  @Override public void showContent() {
+    super.showContent();
+    mSwipeRefreshLayout.setRefreshing(false);
+  }
+
+  @Override public void setData(List<NewItem> data) {
+    mNewItmeAdapter.clearItems();
+    mNewItmeAdapter.addItems(data);
+    mNewItmeAdapter.notifyDataSetChanged();
+  }
+
+  private static class NewItmeAdapter extends BaseRecyclerAdapter<NewItem, NewItemView> {
+
+    public NewItmeAdapter(Context context) {
+      super(context);
     }
 
-    private static class NewItmeAdapter extends RecyclerView.Adapter<NewItemView> {
-
-        private final LayoutInflater mLayoutInflater;
-        List<NewItem> mData;
-
-        public NewItmeAdapter(Context context) {
-            mLayoutInflater = LayoutInflater.from(context);
-            mData = Collections.emptyList();
-        }
-
-        public void setData(List<NewItem> data) {
-            if (mData.isEmpty()) {
-                mData = data;
-            } else {
-                mData.clear();
-                mData.addAll(data);
-            }
-        }
-
-        @Override
-        public NewItemView onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new NewItemView(mLayoutInflater.inflate(R.layout.home_new_item, parent, false));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mData.size();
-        }
-
-        @Override
-        public void onBindViewHolder(NewItemView holder, int position) {
-            NewItem newItem = mData.get(position);
-//            holder.tv_title.setText(newItem.getTitle());
-//            holder.tv_des.setText(newItem.getRealtype());
-            holder.bindData(newItem);
-        }
-
+    @Override public NewItemView onCreateViewHolder(ViewGroup parent, int viewType) {
+      return new NewItemView(mLayoutInflater.inflate(R.layout.home_new_item, parent, false));
     }
 
-    private static class NewItemView extends RecyclerView.ViewHolder {
-        TextView tv_title;
-        TextView tv_des;
-        ImageView iv_img;
-        View v_current;
+    @Override public void onBindViewHolder(NewItemView holder, int position) {
+      NewItem newItem = getDataList().get(position);
+      //            holder.tv_title.setText(newItem.getTitle());
+      //            holder.tv_des.setText(newItem.getRealtype());
+      holder.bindData(newItem);
+    }
+  }
 
-        public NewItemView(View itemView) {
-            super(itemView);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
-            tv_des = (TextView) itemView.findViewById(R.id.tv_des);
-            iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
-            v_current = itemView;
-        }
+  private static class NewItemView extends RecyclerView.ViewHolder {
+    TextView tv_title;
+    TextView tv_des;
+    ImageView iv_img;
 
-        public void bindData(final NewItem newItem) {
-            tv_title.setText(newItem.getTitle());
-            Picasso.with(iv_img.getContext())
-                    .load(newItem.getThumbnail_pic_s())
-                    .into(iv_img);
-            v_current.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CustomTabsUtils.startCustomTabs(view.getContext(), newItem.getUrl());
-                }
-            });
-
-        }
+    public NewItemView(View itemView) {
+      super(itemView);
+      tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+      tv_des = (TextView) itemView.findViewById(R.id.tv_des);
+      iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
     }
 
-
+    public void bindData(final NewItem newItem) {
+      tv_title.setText(newItem.getTitle());
+      Picasso.with(iv_img.getContext()).load(newItem.getThumbnail_pic_s()).into(iv_img);
+      itemView.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          CustomTabsUtils.startCustomTabs(itemView.getContext(), newItem.getUrl());
+        }
+      });
+    }
+  }
 }

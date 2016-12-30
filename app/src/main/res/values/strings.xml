@@ -12,5 +12,8 @@
     <string name="keji">科技</string>
     <string name="caijing">财经</string>
     <string name="shishang">时尚</string>
+  <string name="loading">加载中...</string>
+  <string name="net_error">网络好像不通了 - -！,点一下试试</string>
+  <string name="action_settings">设置</string>
 
 </resources>

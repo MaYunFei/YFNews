@@ -1,75 +1,54 @@
 package com.yunfei.home;
 
-import com.yunfei.entity.BaseResponse;
+import com.yunfei.core.mvp.imple.RxPresenter;
 import com.yunfei.entity.NewItem;
+import com.yunfei.net.BaseResponse;
 import com.yunfei.net.NewsService;
-
+import com.yunfei.net.RetrofitUtil;
+import com.yunfei.net.ServerException;
+import com.yunfei.utils.L;
 import java.util.List;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import java.util.concurrent.TimeoutException;
+import rx.functions.Action1;
 
 /**
  * Created by yunfei on 2016/12/12.
  * email mayunfei6@gmail.com
+ *
+ * 可以添加的逻辑 记录请求时间 再一段时间内再去请求
+ * 根据是否有数据请求
  */
 
-public class NewItemPresenter implements HomeContract.Presenter {
+public class NewItemPresenter extends RxPresenter<NiewItemView> {
 
-    private final HomeContract.View mNewListView;
+  private final NewsService mNewsService;
+  public static int Count = 0;
+  private final String mType;
 
-    private final NewsService mNewsService;
+  //应该判断是否为第一次 选择 显示的 loading
+  public NewItemPresenter(NewsService mNewsService, String type) {
+    this.mNewsService = mNewsService;
+    this.mType = type;
+    Count++;
+    L.i("fragment count = " + Count);
+  }
 
-    private final String mType;
+  public void getNews() {
+    addSuscription(mNewsService.getNewsByType(mType).compose(RetrofitUtil.<List<NewItem>, BaseResponse<List<NewItem>>>getSimpleHttpTransformer()).subscribe(new Action1<List<NewItem>>() {
+      @Override public void call(List<NewItem> data) {
+        getMvpView().setData(data);
+        getMvpView().showContent();
+      }
+    }, new Action1<Throwable>() {
+      @Override public void call(Throwable throwable) {
+        if (throwable instanceof ServerException) {
+          L.i("服务错误" + throwable.getMessage());
+        } else if (throwable instanceof TimeoutException) {
+          L.i("超时。。。");
+        } else {
 
-    private CompositeSubscription mSubscriptions;
-
-
-    public NewItemPresenter(HomeContract.View mNewListView, NewsService mNewsService, String type) {
-        this.mNewListView = mNewListView;
-        this.mNewsService = mNewsService;
-        this.mType = type;
-        mSubscriptions = new CompositeSubscription();
-        //记得调用这个方法绑定
-        mNewListView.setPresenter(this);
-    }
-
-    @Override
-    public void getNews() {
-        mNewListView.setLoadingIndicator(true);
-        mNewsService.getNewsByType(mType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseResponse<List<NewItem>>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(BaseResponse<List<NewItem>> listBaseResponse) {
-                        //private 为什么不行？
-                        BaseResponse.ResultEntity<List<NewItem>> result = listBaseResponse.getResult();
-                        List<NewItem> data = result.getData();
-                        mNewListView.showNews(data);
-                        mNewListView.setLoadingIndicator(false);
-                    }
-                });
-    }
-
-    @Override
-    public void subscribe() {
-        getNews();
-    }
-
-    @Override
-    public void unsubscribe() {
-        mSubscriptions.clear();
-    }
+        }
+      }
+    }));
+  }
 }

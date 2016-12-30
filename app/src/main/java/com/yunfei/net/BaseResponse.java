@@ -1,4 +1,4 @@
-package com.yunfei.entity;
+package com.yunfei.net;
 
 /**
  * Created by yunfei on 2016/12/6.
@@ -6,6 +6,7 @@ package com.yunfei.entity;
  */
 
 public class BaseResponse<T> {
+
     /**
      * reason : 成功的返回
      * result : {"stat":"1","data":[]}

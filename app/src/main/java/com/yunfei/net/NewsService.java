@@ -1,10 +1,7 @@
 package com.yunfei.net;
 
-import com.yunfei.entity.BaseResponse;
 import com.yunfei.entity.NewItem;
-
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="LceeLayout">
+    <attr name="lcee_contentLayoutId" format="reference"/>
+    <attr name="lcee_loadingLayoutId" format="reference"/>
+    <attr name="lcee_emptyLayoutId" format="reference"/>
+    <attr name="lcee_errorLayoutId" format="reference"/>
+    <attr name="lcee_net_error_LayoutId" format="reference"/>
+  </declare-styleable>
+</resources>
