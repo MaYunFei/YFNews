@@ -14,14 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.squareup.picasso.Picasso;
-import com.yunfei.core.mvp.imple.MvpLceeFragment;
+import com.yunfei.common.res.MvpResFragment;
 import com.yunfei.core.ui.BaseRecyclerAdapter;
 import com.yunfei.core.utils.NetUtil;
 import com.yunfei.entity.NewItem;
 import com.yunfei.net.ApiClient;
 import com.yunfei.net.NewsService;
 import com.yunfei.utils.CustomTabsUtils;
-import com.yunfei.utils.L;
 import com.yunfei.yfnews.R;
 import java.util.List;
 
@@ -30,7 +29,7 @@ import java.util.List;
  * email mayunfei6@gmail.com
  */
 
-public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView, NewItemPresenter> implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
+public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresenter> implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
   @BindView(R.id.refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -41,7 +40,6 @@ public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView
   //实现懒加载
   @Override public void setUserVisibleHint(boolean isVisibleToUser) {
     super.setUserVisibleHint(isVisibleToUser);
-    L.i("呵呵 " + getArguments().getString(BUNDLE_TYPE));
     if (getUserVisibleHint()) {
       //当前可见
       onVisible();
@@ -72,6 +70,9 @@ public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView
         super.onTouchEvent(rv, e);
       }
     });
+    if (getArguments().getString(BUNDLE_TYPE).equals("top")) {
+      onRefresh();
+    }
   }
 
   public static NewItemFragment getNewInstance(String type) {
@@ -90,17 +91,14 @@ public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView
     mPresenter.getNews();
   }
 
-  @Override public void showError(Throwable e, boolean pullToRefresh) {
-    super.showError(e, pullToRefresh);
-  }
-
   @Override protected NewItemPresenter createPresenter() {
     return new NewItemPresenter(ApiClient.retrofit().create(NewsService.class), getArguments().getString(BUNDLE_TYPE));
   }
 
-  @Override protected void showPullToRefresh() {
-    super.showPullToRefresh();
-    mSwipeRefreshLayout.setRefreshing(true);
+  @Override public void setData(List<NewItem> data) {
+    mNewItmeAdapter.clearItems();
+    mNewItmeAdapter.addItems(data);
+    mNewItmeAdapter.notifyDataSetChanged();
   }
 
   @Override public void showContent() {
@@ -108,10 +106,9 @@ public class NewItemFragment extends MvpLceeFragment<List<NewItem>, NiewItemView
     mSwipeRefreshLayout.setRefreshing(false);
   }
 
-  @Override public void setData(List<NewItem> data) {
-    mNewItmeAdapter.clearItems();
-    mNewItmeAdapter.addItems(data);
-    mNewItmeAdapter.notifyDataSetChanged();
+  @Override public void showEmpty() {
+    super.showEmpty();
+    mSwipeRefreshLayout.setRefreshing(false);
   }
 
   private static class NewItmeAdapter extends BaseRecyclerAdapter<NewItem, NewItemView> {

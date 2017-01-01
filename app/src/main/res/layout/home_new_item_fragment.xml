@@ -6,12 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-  <com.yunfei.lceelayout.LceeLayout
+  <com.yunfei.common.ui.CommonLceeLayout
       android:id="@id/lcee_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       app:lcee_loadingLayoutId="@layout/common_loading"
-      app:lcee_net_error_LayoutId="@layout/common_net_error"
       >
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
@@ -26,7 +25,7 @@
           />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-  </com.yunfei.lceelayout.LceeLayout>
+  </com.yunfei.common.ui.CommonLceeLayout>
 
 
 </RelativeLayout>

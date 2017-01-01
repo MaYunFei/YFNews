@@ -1,6 +1,6 @@
 package com.yunfei.home;
 
-import com.yunfei.core.mvp.imple.RxPresenter;
+import com.yunfei.common.res.ResPresenter;
 import com.yunfei.entity.NewItem;
 import com.yunfei.net.BaseResponse;
 import com.yunfei.net.NewsService;
@@ -19,7 +19,7 @@ import rx.functions.Action1;
  * 根据是否有数据请求
  */
 
-public class NewItemPresenter extends RxPresenter<NiewItemView> {
+public class NewItemPresenter extends ResPresenter<List<NewItem>, NiewItemView> {
 
   private final NewsService mNewsService;
   public static int Count = 0;
@@ -34,12 +34,12 @@ public class NewItemPresenter extends RxPresenter<NiewItemView> {
   }
 
   public void getNews() {
-    addSuscription(mNewsService.getNewsByType(mType).compose(RetrofitUtil.<List<NewItem>, BaseResponse<List<NewItem>>>getSimpleHttpTransformer()).subscribe(new Action1<List<NewItem>>() {
-      @Override public void call(List<NewItem> data) {
-        getMvpView().setData(data);
-        getMvpView().showContent();
-      }
-    }, new Action1<Throwable>() {
+    addSuscription(mNewsService.
+        getNewsByType(mType)
+
+        .compose(RetrofitUtil.<List<NewItem>, BaseResponse<List<NewItem>>>getSimpleHttpTransformer()).subscribe(getResNextAction()
+
+            , new Action1<Throwable>() {
       @Override public void call(Throwable throwable) {
         if (throwable instanceof ServerException) {
           L.i("服务错误" + throwable.getMessage());

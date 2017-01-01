@@ -1,6 +1,6 @@
 package com.yunfei.home;
 
-import com.yunfei.core.mvp.imple.MvpLceeView;
+import com.yunfei.common.res.ResView;
 import com.yunfei.entity.NewItem;
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  * email mayunfei6@gmail.com
  */
 
-public interface NiewItemView extends MvpLceeView<List<NewItem>> {
+public interface NiewItemView extends ResView<List<NewItem>> {
 }

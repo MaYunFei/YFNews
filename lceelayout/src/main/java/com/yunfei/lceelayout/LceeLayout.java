@@ -19,21 +19,23 @@ import android.widget.FrameLayout;
  * email mayunfei6@gmail.com
  *
  * Loading Content Empty Error View L-C-E-E View
+ *
+ * 我觉的最佳用法是，写一个类继承这个Layout 将一般情况重写
  */
 
 public class LceeLayout extends FrameLayout implements LceeInterface {
 
-  View loadingView;
-  View errorView;
-  View emptyView;
-  View contentView;
-  View net_errorView;
+  protected View loadingView;
+  protected View errorView;
+  protected View emptyView;
+  protected View contentView;
+  protected View net_errorView;
 
-  int loadingLayoutId = RES_NONE;
-  int errorLayoutId = RES_NONE;
-  int emptyLayoutId = RES_NONE;
-  int contentLayoutId = RES_NONE;
-  int net_errorLayoutId = RES_NONE;
+  protected int loadingLayoutId = RES_NONE;
+  protected int errorLayoutId = RES_NONE;
+  protected int emptyLayoutId = RES_NONE;
+  protected int contentLayoutId = RES_NONE;
+  protected int net_errorLayoutId = RES_NONE;
 
   public static final int STATE_LOADING = 0x1;
   public static final int STATE_ERROR = 0x2;
