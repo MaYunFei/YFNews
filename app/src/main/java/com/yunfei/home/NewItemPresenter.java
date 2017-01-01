@@ -42,9 +42,9 @@ public class NewItemPresenter extends ResPresenter<List<NewItem>, NiewItemView> 
             , new Action1<Throwable>() {
       @Override public void call(Throwable throwable) {
         if (throwable instanceof ServerException) {
-          L.i("服务错误" + throwable.getMessage());
+          getMvpView().showError(throwable.getMessage());
         } else if (throwable instanceof TimeoutException) {
-          L.i("超时。。。");
+          getMvpView().showError(throwable.getMessage());
         } else {
 
         }
