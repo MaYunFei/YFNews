@@ -1,12 +1,12 @@
 {
-  "android_gradle_plugin_version": "2.3.0-beta1",
+    "android_gradle_plugin_version": "2.2.3",
     "apk_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/outputs/apk/app-debug.apk",
     "apt": {
         
     },
     "apt_libraries": {
         "dagger": false,
-      "butterknife": true
+        "butterknife": true
     },
     "auto_dependency": true,
     "build_cache_dir": "/Users/yunfei/Documents/Code/GitHub/YFNews/app/build/freeline",
@@ -61,12 +61,13 @@
     ],
     "module_dependencies": {
         "app": [
-          "core"
+            "core",
+            "lceelayout"
         ],
-      "core": [
-        "lceelayout"
-      ],
-      "lceelayout": [
+        "core": [
+
+        ],
+        "lceelayout": [
             
         ]
     },
@@ -75,13 +76,13 @@
             "name": "app",
             "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/app"
         },
-      {
-        "name": "core",
-        "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/core"
-      },
-      {
-        "name": "lceelayout",
-        "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout"
+        {
+            "name": "core",
+            "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/core"
+        },
+        {
+            "name": "lceelayout",
+            "path": "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout"
         }
     ],
     "package": "com.yunfei.yfnews",
@@ -110,50 +111,50 @@
                 "/Users/yunfei/Documents/Code/GitHub/YFNews/app/src/main/java"
             ]
         },
-      "core": {
-        "main_assets_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/assets",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/assets"
-        ],
-        "main_jniLibs_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/jniLibs",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/jniLibs"
-        ],
-        "main_jni_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/jni",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/jni"
-        ],
-        "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/AndroidManifest.xml",
-        "main_res_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/res",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/res"
-        ],
-        "main_src_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/java",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/java"
-        ]
-      },
-      "lceelayout": {
-        "main_assets_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/assets",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/assets"
-        ],
-        "main_jniLibs_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/jniLibs",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/jniLibs"
-        ],
-        "main_jni_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/jni",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/jni"
-        ],
-        "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/AndroidManifest.xml",
-        "main_res_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/res",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/res"
-        ],
-        "main_src_directory": [
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/java",
-          "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/java"
+        "core": {
+            "main_assets_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/assets",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/assets"
+            ],
+            "main_jniLibs_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/jniLibs",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/jniLibs"
+            ],
+            "main_jni_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/jni",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/jni"
+            ],
+            "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/AndroidManifest.xml",
+            "main_res_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/res",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/res"
+            ],
+            "main_src_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/release/java",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/core/src/main/java"
+            ]
+        },
+        "lceelayout": {
+            "main_assets_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/assets",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/assets"
+            ],
+            "main_jniLibs_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/jniLibs",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/jniLibs"
+            ],
+            "main_jni_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/jni",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/jni"
+            ],
+            "main_manifest_path": "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/AndroidManifest.xml",
+            "main_res_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/res",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/res"
+            ],
+            "main_src_directory": [
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/release/java",
+                "/Users/yunfei/Documents/Code/GitHub/YFNews/lceelayout/src/main/java"
             ]
         }
     },

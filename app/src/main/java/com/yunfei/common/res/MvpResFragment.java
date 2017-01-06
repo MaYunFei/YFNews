@@ -13,7 +13,8 @@ import com.yunfei.yfnews.R;
  * http 资源请求
  */
 
-public abstract class MvpResFragment<M, P extends ResPresenter> extends MvpFragment<P> implements ResView<M> {
+public abstract class MvpResFragment<M, P extends ResPresenter> extends MvpFragment<P>
+    implements ResView<M> {
   protected CommonLceeLayout mLceeLayout;
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -30,7 +31,9 @@ public abstract class MvpResFragment<M, P extends ResPresenter> extends MvpFragm
   }
 
   @Override public void showNetError() {
-    mLceeLayout.showNetError();
+    if (mLceeLayout != null) {
+      mLceeLayout.showNetError();
+    }
   }
 
   @Override public void showContent() {
