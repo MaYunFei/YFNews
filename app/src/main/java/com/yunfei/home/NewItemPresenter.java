@@ -35,18 +35,20 @@ public class NewItemPresenter extends ResPresenter<List<NewItem>, NiewItemView> 
     addSuscription(mNewsService.
         getNewsByType(mType)
 
-        .compose(RetrofitUtil.<List<NewItem>, BaseResponse<List<NewItem>>>getSimpleHttpTransformer()).subscribe(getResNextAction()
+        .compose(
+            RetrofitUtil.<List<NewItem>, BaseResponse<List<NewItem>>>getSimpleHttpTransformer())
+        .subscribe(getResNextAction()
 
             , new Action1<Throwable>() {
-      @Override public void call(Throwable throwable) {
-        if (throwable instanceof ServerException) {
-          getMvpView().showError(throwable.getMessage());
-        } else if (throwable instanceof TimeoutException) {
-          getMvpView().showError(throwable.getMessage());
-        } else {
+              @Override public void call(Throwable throwable) {
+                if (throwable instanceof ServerException) {
+                  getMvpView().showError(throwable.getMessage());
+                } else if (throwable instanceof TimeoutException) {
+                  getMvpView().showError(throwable.getMessage());
+                } else {
 
-        }
-      }
-    }));
+                }
+              }
+            }));
   }
 }

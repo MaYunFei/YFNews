@@ -26,26 +26,29 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TabLayout mTablayout;
-    private ViewPager mViewPager;
-    private List<Type> typeList;
+  private TabLayout mTablayout;
+  private ViewPager mViewPager;
+  private List<Type> typeList;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        initData();
-        initView();
-    }
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.home_activity);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    toolbar.setTitle(R.string.app_name);
+    //toolbar.setLogo(R.mipmap.ic_launcher);
+    setSupportActionBar(toolbar);
+    initData();
+    initView();
+  }
 
-    private void initView() {
-        mTablayout = (TabLayout) findViewById(R.id.table_layout);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(new NewsPageAdapter(getApplicationContext(), getSupportFragmentManager(), typeList));
-        mTablayout.setupWithViewPager(mViewPager);
-    }
+  private void initView() {
+    mTablayout = (TabLayout) findViewById(R.id.table_layout);
+    mViewPager = (ViewPager) findViewById(R.id.view_pager);
+    mViewPager.setAdapter(
+        new NewsPageAdapter(getApplicationContext(), getSupportFragmentManager(), typeList));
+    mTablayout.setupWithViewPager(mViewPager);
+    mViewPager.setOffscreenPageLimit(mViewPager.getAdapter().getCount());
+  }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
@@ -64,19 +67,19 @@ public class HomeActivity extends AppCompatActivity {
     return super.onCreateOptionsMenu(menu);
   }
 
-    private void initData() {
-        typeList = new ArrayList<Type>();
-        typeList.add(new Type("top", R.string.top));
-        typeList.add(new Type("shehui", R.string.shehui));
-        typeList.add(new Type("guonei", R.string.guonei));
-        typeList.add(new Type("guoji", R.string.guoji));
-        typeList.add(new Type("yule", R.string.yule));
-        typeList.add(new Type("tiyu", R.string.tiyu));
-        typeList.add(new Type("junshi", R.string.junshi));
-        typeList.add(new Type("keji", R.string.keji));
-        typeList.add(new Type("caijing", R.string.caijing));
-        typeList.add(new Type("shishang", R.string.shishang));
-    }
+  private void initData() {
+    typeList = new ArrayList<Type>();
+    typeList.add(new Type("top", R.string.top));
+    typeList.add(new Type("shehui", R.string.shehui));
+    typeList.add(new Type("guonei", R.string.guonei));
+    typeList.add(new Type("guoji", R.string.guoji));
+    typeList.add(new Type("yule", R.string.yule));
+    typeList.add(new Type("tiyu", R.string.tiyu));
+    typeList.add(new Type("junshi", R.string.junshi));
+    typeList.add(new Type("keji", R.string.keji));
+    typeList.add(new Type("caijing", R.string.caijing));
+    typeList.add(new Type("shishang", R.string.shishang));
+  }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
@@ -88,42 +91,39 @@ public class HomeActivity extends AppCompatActivity {
         // Invoke the superclass to handle it.
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  private static class NewsPageAdapter extends FragmentPagerAdapter {
+
+    private final List<Type> typeList;
+    private final Context mContext;
+
+    public NewsPageAdapter(Context context, FragmentManager fm, List<Type> typeList) {
+      super(fm);
+      this.typeList = typeList;
+      this.mContext = context;
     }
 
-    private static class NewsPageAdapter extends FragmentPagerAdapter {
-
-        private final List<Type> typeList;
-        private final Context mContext;
-
-        public NewsPageAdapter(Context context, FragmentManager fm, List<Type> typeList) {
-            super(fm);
-            this.typeList = typeList;
-            this.mContext = context;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return NewItemFragment.getNewInstance(typeList.get(position).type);
-        }
-
-        @Override
-        public int getCount() {
-            return typeList.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mContext.getString(typeList.get(position).stringResourceId);
-        }
+    @Override public Fragment getItem(int position) {
+      return NewItemFragment.getNewInstance(typeList.get(position).type);
     }
 
-    private static class Type {
-        String type;
-        int stringResourceId;
-
-        public Type(String type, int stringResourceId) {
-            this.type = type;
-            this.stringResourceId = stringResourceId;
-        }
+    @Override public int getCount() {
+      return typeList.size();
     }
+
+    @Override public CharSequence getPageTitle(int position) {
+      return mContext.getString(typeList.get(position).stringResourceId);
+    }
+  }
+
+  private static class Type {
+    String type;
+    int stringResourceId;
+
+    public Type(String type, int stringResourceId) {
+      this.type = type;
+      this.stringResourceId = stringResourceId;
+    }
+  }
 }

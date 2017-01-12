@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import com.squareup.picasso.Picasso;
-import com.yunfei.common.res.MvpResFragment;
 import com.yunfei.core.ui.BaseRecyclerAdapter;
 import com.yunfei.core.utils.NetUtil;
 import com.yunfei.entity.NewItem;
@@ -30,7 +29,7 @@ import java.util.List;
  * email mayunfei6@gmail.com
  */
 
-public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresenter>
+public class NewItemFragment extends LazyFragment<List<NewItem>, NewItemPresenter>
     implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
@@ -38,46 +37,15 @@ public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresen
 
   private NewItmeAdapter mNewItmeAdapter;
   private static final String BUNDLE_TYPE = "bundle_type";
-  private boolean isVisible;
-  private boolean isPrepared;
 
   @Override public void onAttach(Context context) {
     super.onAttach(context);
     L.i(getArguments().getString(BUNDLE_TYPE) + "   " + toString());
   }
 
-  //实现懒加载
-  @Override public void setUserVisibleHint(boolean isVisibleToUser) {
-    super.setUserVisibleHint(isVisibleToUser);
-    if (getUserVisibleHint()) {
-      //当前可见
-      isVisible = true;
-      lazyLoad();
-    }
-  }
-
-  private void lazyLoad() {
+  @Override protected void lazyLoad() {
 
     L.i(getArguments().getString(BUNDLE_TYPE));
-    //if (!getArguments().getString(BUNDLE_TYPE).equals("top")){
-    if (!isPrepared || !isVisible) {
-      return;
-      }
-    //}
-
-    mSwipeRefreshLayout.setColorSchemeColors(
-        ContextCompat.getColor(getActivity(), R.color.colorPrimary),
-        ContextCompat.getColor(getActivity(), R.color.colorAccent),
-        ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-    mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
-    mNewItmeAdapter = new NewItmeAdapter(getContext());
-    mRecyclerview.setAdapter(mNewItmeAdapter);
-    mSwipeRefreshLayout.setOnRefreshListener(this);
-    mRecyclerview.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
-      @Override public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        super.onTouchEvent(rv, e);
-      }
-    });
 
     //没有数据的时候更新 如果有需要操作view 的方法应该判断view是否生成，因为setUserVisibleHint 方法在onCreateView之前
     if (NetUtil.isNetWorkAvilable()) {
@@ -92,9 +60,19 @@ public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresen
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    isPrepared = true;
-    L.i("onViewCreated()  " + toString());
-    lazyLoad();
+    mSwipeRefreshLayout.setColorSchemeColors(
+        ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+        ContextCompat.getColor(getActivity(), R.color.colorAccent),
+        ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+    mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+    mNewItmeAdapter = new NewItmeAdapter(getContext());
+    mRecyclerview.setAdapter(mNewItmeAdapter);
+    mSwipeRefreshLayout.setOnRefreshListener(this);
+    mRecyclerview.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+      @Override public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        super.onTouchEvent(rv, e);
+      }
+    });
   }
 
   public static NewItemFragment getNewInstance(String type) {
