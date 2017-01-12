@@ -21,6 +21,7 @@ import com.yunfei.entity.NewItem;
 import com.yunfei.net.ApiClient;
 import com.yunfei.net.NewsService;
 import com.yunfei.utils.CustomTabsUtils;
+import com.yunfei.utils.L;
 import com.yunfei.yfnews.R;
 import java.util.List;
 
@@ -29,37 +30,44 @@ import java.util.List;
  * email mayunfei6@gmail.com
  */
 
-public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresenter> implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
+public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresenter>
+    implements NiewItemView, SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R.id.recyclerview) RecyclerView mRecyclerview;
   @BindView(R.id.refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
   private NewItmeAdapter mNewItmeAdapter;
   private static final String BUNDLE_TYPE = "bundle_type";
+  private boolean isVisible;
+  private boolean isPrepared;
+
+  @Override public void onAttach(Context context) {
+    super.onAttach(context);
+    L.i(getArguments().getString(BUNDLE_TYPE) + "   " + toString());
+  }
 
   //实现懒加载
   @Override public void setUserVisibleHint(boolean isVisibleToUser) {
     super.setUserVisibleHint(isVisibleToUser);
     if (getUserVisibleHint()) {
       //当前可见
-      onVisible();
+      isVisible = true;
+      lazyLoad();
     }
   }
 
-  private void onVisible() {
-    //没有数据的时候更新 如果有需要操作view 的方法应该判断view是否生成，因为setUserVisibleHint 方法在onCreateView之前
-    if (NetUtil.isNetWorkAvilable()) {
-      if ((mPresenter != null && (mNewItmeAdapter == null || mNewItmeAdapter.getItemCount() == 0))) {
-        mPresenter.getNews();
+  private void lazyLoad() {
+
+    L.i(getArguments().getString(BUNDLE_TYPE));
+    //if (!getArguments().getString(BUNDLE_TYPE).equals("top")){
+    if (!isPrepared || !isVisible) {
+      return;
       }
-    } else {
-      showNetError();
-    }
-  }
+    //}
 
-  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.colorPrimary), ContextCompat.getColor(getActivity(), R.color.colorAccent),
+    mSwipeRefreshLayout.setColorSchemeColors(
+        ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+        ContextCompat.getColor(getActivity(), R.color.colorAccent),
         ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
     mRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
     mNewItmeAdapter = new NewItmeAdapter(getContext());
@@ -70,9 +78,23 @@ public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresen
         super.onTouchEvent(rv, e);
       }
     });
-    if (getArguments().getString(BUNDLE_TYPE).equals("top")) {
-      onRefresh();
+
+    //没有数据的时候更新 如果有需要操作view 的方法应该判断view是否生成，因为setUserVisibleHint 方法在onCreateView之前
+    if (NetUtil.isNetWorkAvilable()) {
+      if ((mPresenter != null && (mNewItmeAdapter == null
+          || mNewItmeAdapter.getItemCount() == 0))) {
+        mPresenter.getNews();
+      }
+    } else {
+      showNetError();
     }
+  }
+
+  @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    isPrepared = true;
+    L.i("onViewCreated()  " + toString());
+    lazyLoad();
   }
 
   public static NewItemFragment getNewInstance(String type) {
@@ -92,7 +114,8 @@ public class NewItemFragment extends MvpResFragment<List<NewItem>, NewItemPresen
   }
 
   @Override protected NewItemPresenter createPresenter() {
-    return new NewItemPresenter(ApiClient.retrofit().create(NewsService.class), getArguments().getString(BUNDLE_TYPE));
+    return new NewItemPresenter(ApiClient.retrofit().create(NewsService.class),
+        getArguments().getString(BUNDLE_TYPE));
   }
 
   @Override public void setData(List<NewItem> data) {

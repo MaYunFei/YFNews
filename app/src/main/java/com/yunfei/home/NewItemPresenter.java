@@ -6,7 +6,6 @@ import com.yunfei.net.BaseResponse;
 import com.yunfei.net.NewsService;
 import com.yunfei.net.RetrofitUtil;
 import com.yunfei.net.ServerException;
-import com.yunfei.utils.L;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import rx.functions.Action1;
@@ -30,7 +29,6 @@ public class NewItemPresenter extends ResPresenter<List<NewItem>, NiewItemView> 
     this.mNewsService = mNewsService;
     this.mType = type;
     Count++;
-    L.i("fragment count = " + Count);
   }
 
   public void getNews() {
