@@ -19,8 +19,8 @@ import com.yunfei.core.utils.NetUtil;
 import com.yunfei.entity.NewItem;
 import com.yunfei.net.ApiClient;
 import com.yunfei.net.NewsService;
-import com.yunfei.utils.CustomTabsUtils;
 import com.yunfei.utils.L;
+import com.yunfei.webview.WebViewActivity;
 import com.yunfei.yfnews.R;
 import java.util.List;
 
@@ -147,7 +147,8 @@ public class NewItemFragment extends LazyFragment<List<NewItem>, NewItemPresente
       Picasso.with(iv_img.getContext()).load(newItem.getThumbnail_pic_s()).into(iv_img);
       itemView.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
-          CustomTabsUtils.startCustomTabs(itemView.getContext(), newItem.getUrl());
+          WebViewActivity.startWebViewActivity(itemView.getContext(), newItem.getTitle(),
+              newItem.getUrl());
         }
       });
     }

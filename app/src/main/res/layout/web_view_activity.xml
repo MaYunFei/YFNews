@@ -8,11 +8,22 @@
     android:orientation="vertical"
     tools:context="com.yunfei.webview.WebViewActivity"
     >
-
   <include layout="@layout/common_toolbar"/>
-  <FrameLayout
+  <ProgressBar
+      android:id="@+id/progressbar_webview"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      ></FrameLayout>
+      android:layout_height="1.5dp"
+      android:layout_gravity="center"
+      android:paddingTop="0dp"
+      android:progressDrawable="@drawable/webview_progressbar"
+      android:visibility="visible"
+      style="?android:attr/progressBarStyleHorizontal"
+      />
+  <WebView
+      android:id="@+id/web_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
 
 </LinearLayout>

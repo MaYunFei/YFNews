@@ -1,7 +1,6 @@
 package com.yunfei.core.mvp.imple;
 
 import android.support.annotation.NonNull;
-import com.yunfei.core.mvp.core.MvpPresenter;
 import com.yunfei.core.mvp.core.MvpView;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -11,8 +10,7 @@ import rx.subscriptions.CompositeSubscription;
  * email mayunfei6@gmail.com
  */
 
-public abstract class RxPresenter<V extends MvpView> implements MvpPresenter<V> {
-  protected V mView;
+public abstract class RxPresenter<V extends MvpView> extends SimplePresenter<V> {
 
   protected CompositeSubscription mSubscriptions;
 
@@ -24,15 +22,8 @@ public abstract class RxPresenter<V extends MvpView> implements MvpPresenter<V> 
     mSubscriptions.add(s);
   }
 
-  @Override public void attachView(V view) {
-    mView = view;
-  }
-
-  protected V getMvpView() {
-    return mView;
-  }
-
   @Override public void detachView() {
+    super.detachView();
     if (mSubscriptions != null) {
       mSubscriptions.clear();
     }
